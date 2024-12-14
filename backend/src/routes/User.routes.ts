@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  generateNewAccessToken,
   loginUser,
   logoutUser,
   registerUser,
@@ -10,7 +11,7 @@ const router = Router();
 
 router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
-router.route("/auth").post(loginUser);
+router.route("/refresh-token").post(authMiddleware, generateNewAccessToken);
 router.route("/logout").post(authMiddleware, logoutUser);
 
 export default router;

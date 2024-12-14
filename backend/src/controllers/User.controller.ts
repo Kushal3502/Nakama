@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import { generateAccessToken } from "../utils/generateTokens";
+import jwt from "jsonwebtoken";
+import { generateAccessToken, generateRefreshToken } from "../utils/generateTokens";
 import { AuthRequest } from "../middleware/auth.middleware";
 
 const client = new PrismaClient();
@@ -96,7 +97,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
     // if successful -> generate tokens and set cookie
     const accessToken = generateAccessToken(currUser.id, currUser.username);
-    const refreshToken = generateAccessToken(currUser.id, currUser.username);
+    const refreshToken = generateRefreshToken(currUser.id, currUser.username);
 
     // add refresh token to database
     await client.user.update({
@@ -169,9 +170,48 @@ export const logoutUser = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export const checkAuth = async (req: Request, res: Response) => {
+export const generateNewAccessToken = async (req: Request, res: Response) => {
+  const { refreshToken } = req.cookies;
+
+  if (!refreshToken) {
+    res.status(401).json({ message: "No refresh token provided" });
+    return;
+  }
   try {
-    
+    // verify the refresh token
+    const decodedToken = jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET as string
+    ) as { id: number; username: string };
+
+    const user = await client.user.findFirst({
+      where: {
+        id: decodedToken.id,
+        refreshToken,
+      },
+    });
+
+    if (!user) {
+      res.status(401).json({ message: "Invalid refresh token" });
+    }
+
+    // generate new access token
+    const newAccessToken = generateAccessToken(
+      decodedToken.id,
+      decodedToken.username
+    );
+
+    res
+      .cookie("accessToken", newAccessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      })
+      .status(200)
+      .json({
+        success: true,
+        message: "Access token refreshed successfully",
+      });
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -179,4 +219,4 @@ export const checkAuth = async (req: Request, res: Response) => {
       message: "Something went wrong",
     });
   }
-}
+};
