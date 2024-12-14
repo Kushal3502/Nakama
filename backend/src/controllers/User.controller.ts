@@ -2,7 +2,10 @@ import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { generateAccessToken, generateRefreshToken } from "../utils/generateTokens";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../utils/generateTokens";
 import { AuthRequest } from "../middleware/auth.middleware";
 
 const client = new PrismaClient();
@@ -160,6 +163,22 @@ export const logoutUser = async (req: AuthRequest, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Logged out successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
+export const currentUser = async (req: AuthRequest, res: Response) => {
+  try {
+    res.status(200).json({
+      success: true,
+      user: req.user,
+      message: "User fetched successfully",
     });
   } catch (error) {
     console.log(error);
