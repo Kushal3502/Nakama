@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import { Card } from ".";
 import { Button } from "./ui/button";
 import { Star } from "lucide-react";
+import { useNavigate } from "react-router";
 
 function Popular() {
   const provider = new ANIME.Gogoanime();
 
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -48,14 +50,15 @@ function Popular() {
         <Button
           size={"sm"}
           className=" bg-indigo-700 hover:bg-indigo-800 text-white"
+          onClick={() => navigate("/home/popular")}
         >
           View all
         </Button>
       </div>
-      <div className=" grid grid-cols-5 gap-6">
+      <div className=" grid md:grid-cols-5 gap-6">
         {data &&
           data
-            .filter((_, index) => index < 10)
+            .filter((_, index) => index < 5)
             .map((item, index) => <Card data={item} key={index} />)}
       </div>
     </div>

@@ -5,5 +5,15 @@ import AuthLayout from "./auth/AuthLayout";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import Trending from "./home/Trending";
+import Popular from "./home/Popular";
 
-export { Landing, Home, Layout, AuthLayout, Login, Register, Trending };
+export {
+  Landing,
+  Home,
+  Layout,
+  AuthLayout,
+  Login,
+  Register,
+  Trending,
+  Popular,
+};

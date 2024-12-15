@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { ANIME } from "@consumet/extensions";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { TrendingUp } from "lucide-react";
+import { Star } from "lucide-react";
 
-function Trending() {
+function Popular() {
   const provider = new ANIME.Gogoanime();
 
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ function Trending() {
   const fetchTopAiring = async () => {
     try {
       setIsLoading(true);
-      const response = await provider.fetchTopAiring(page);
+      const response = await provider.fetchPopular(page);
       console.log(response);
 
       if (page === 1) {
@@ -44,8 +44,8 @@ function Trending() {
   return (
     <div className=" flex flex-col gap-4">
       <div className=" flex items-center justify-start gap-2">
-        <h3 className=" text-3xl">Trending</h3>
-        <TrendingUp />
+        <h3 className=" text-3xl">Popular</h3>
+        <Star />
       </div>
       <div className=" grid md:grid-cols-5 gap-6">
         {data && data.map((item, index) => <Card data={item} key={index} />)}
@@ -63,4 +63,4 @@ function Trending() {
   );
 }
 
-export default Trending;
+export default Popular;

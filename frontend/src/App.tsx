@@ -2,7 +2,16 @@ import { Routes } from "react-router";
 import "./App.css";
 import { Navbar } from "./components";
 import { Route } from "react-router";
-import { AuthLayout, Home, Landing, Layout, Login, Register } from "./pages";
+import {
+  AuthLayout,
+  Home,
+  Landing,
+  Layout,
+  Login,
+  Popular,
+  Register,
+  Trending,
+} from "./pages";
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -17,6 +26,8 @@ function App() {
         </Route>
         <Route path="home" element={<Layout />}>
           <Route path="" element={<Home />} />
+          <Route path="trending" element={<Trending />} />
+          <Route path="popular" element={<Popular />} />
         </Route>
       </Routes>
       <Toaster />

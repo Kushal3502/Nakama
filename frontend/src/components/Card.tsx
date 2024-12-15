@@ -23,9 +23,7 @@ function Card({ data }: CardProp) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
       </div>
       <div className="absolute bottom-0 p-4 bg-black/50 backdrop-blur-md w-full">
-        <h3 className="text-white text-lg font-semibold truncate group-hover:text-blue-400 transition-colors duration-200">
-          {data.title}
-        </h3>
+        <h3 className="text-white truncate ">{data.title}</h3>
       </div>
     </div>
   );
