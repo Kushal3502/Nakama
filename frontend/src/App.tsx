@@ -2,7 +2,8 @@ import { Routes } from "react-router";
 import "./App.css";
 import { Navbar } from "./components";
 import { Route } from "react-router";
-import { Landing } from "./pages";
+import { AuthLayout, Home, Landing, Login, Register } from "./pages";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -10,7 +11,13 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="" element={<Landing />} />
+        <Route path="auth" element={<AuthLayout />}>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+        </Route>
+        <Route path="home" element={<Home />} />
       </Routes>
+      <Toaster />
     </div>
   );
 }

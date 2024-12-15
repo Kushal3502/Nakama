@@ -1,8 +1,10 @@
 import BlurIn from "@/components/ui/blur-in";
 import { Button } from "@/components/ui/button";
-import React from "react";
+import { useNavigate } from "react-router";
 
 function Landing() {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-6xl px-4 py-16 gap-8">
       <div className="w-full md:w-1/2 flex justify-center">
@@ -21,11 +23,17 @@ function Landing() {
           <Button
             variant="default"
             size="lg"
-            className="w-full md:w-auto bg-indigo-700 hover:bg-indigo-800 text-white"
+            className="w-full md:w-auto bg-indigo-700 hover:bg-indigo-800 text-white rounded-full"
+            onClick={() => navigate("/auth/login")}
           >
             Login
           </Button>
-          <Button variant="outline" size="lg" className="w-full md:w-auto">
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-full md:w-auto rounded-full"
+            onClick={() => navigate("/home")}
+          >
             Continue as Guest
           </Button>
         </div>
