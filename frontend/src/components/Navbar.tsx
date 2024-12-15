@@ -1,5 +1,4 @@
 import { useAuth } from "@/context/userContext";
-import React from "react";
 import { Link } from "react-router";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router";
@@ -12,7 +11,10 @@ function Navbar() {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-white/10 backdrop-blur-xl h-16 flex items-center justify-between fixed md:top-8 top-4 md:left-20 left-4 md:right-20 right-4 z-50 rounded-xl shadow-lg px-8">
+    <div
+      className="bg-white/10 backdrop-blur-md h-16 flex items-center justify-between fixed 
+    md:top-8 top-2 md:left-20 left-4 md:right-20 right-4 z-50 rounded-xl shadow-lg px-8"
+    >
       <Link to={"/"}>
         <h1 className="text-white font-bold text-xl">Nakama</h1>
       </Link>

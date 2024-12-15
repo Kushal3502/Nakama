@@ -1,7 +1,9 @@
 import Landing from "./Landing";
-import Home from "./Home";
+import Home from "./home/Home";
+import Layout from "./home/Layout";
 import AuthLayout from "./auth/AuthLayout";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
+import Trending from "./home/Trending";
 
-export { Landing, Home, AuthLayout, Login, Register };
+export { Landing, Home, Layout, AuthLayout, Login, Register, Trending };
