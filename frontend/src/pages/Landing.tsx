@@ -24,18 +24,11 @@ function Landing() {
             variant="default"
             size="lg"
             className="w-full md:w-auto bg-indigo-700 hover:bg-indigo-800 text-white rounded-full"
-            onClick={() => navigate("/auth/login")}
-          >
-            Login
-          </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            className="w-full md:w-auto rounded-full"
             onClick={() => navigate("/home")}
           >
-            Continue as Guest
+            Get Started
           </Button>
+          
         </div>
       </div>
     </div>

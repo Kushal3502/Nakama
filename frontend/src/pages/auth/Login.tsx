@@ -1,49 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { post } from "@/utils/api";
-import { useNavigate } from "react-router";
-import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
-import { useState } from "react";
-
-interface LoginFormData {
-  username: string;
-  password: string;
-}
-
-interface ApiResponse {
-  success: boolean;
-  message: string;
-  user: {
-    id: number;
-    username: string;
-  };
-}
+import { FormData, useAuth } from "@/context/userContext";
 
 function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormData>({
+  } = useForm<FormData>({
     mode: "onChange",
   });
-  
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
 
-  async function handleLogin(data: any) {
-    setLoading(true);
+  const { loading, login } = useAuth();
 
-    const response: ApiResponse = await post("/users/login", data);
-    if (response?.success) {
-      toast.success("Login successful");
-      navigate("/home");
-    }
-
-    setLoading(false);
+  async function handleLogin(data: FormData) {
+    const response = await login(data);
+    console.log(response);
   }
 
   return (

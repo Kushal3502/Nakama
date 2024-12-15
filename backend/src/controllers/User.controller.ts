@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -7,8 +6,7 @@ import {
   generateRefreshToken,
 } from "../utils/generateTokens";
 import { AuthRequest } from "../middleware/auth.middleware";
-
-const client = new PrismaClient();
+import { client } from "..";
 
 export const registerUser = async (req: Request, res: Response) => {
   const { username, password, avatar } = req.body;
@@ -125,6 +123,7 @@ export const loginUser = async (req: Request, res: Response) => {
         user: {
           id: currUser.id,
           username: currUser.username,
+          avatar: currUser.avatar,
         },
         message: "User logged in successfully",
       });

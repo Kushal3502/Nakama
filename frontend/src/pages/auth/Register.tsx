@@ -1,53 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { post } from "@/utils/api";
-import { useNavigate } from "react-router";
-import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
-import { useState } from "react";
-import { generateAvatar } from "@/config/avatars";
-
-interface RegisterFormData {
-  username: string;
-  password: string;
-}
-
-interface ApiResponse {
-  success: boolean;
-  message: string;
-  user: {
-    id: number;
-    username: string;
-  };
-}
+import { FormData, useAuth } from "@/context/userContext";
 
 function Register() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterFormData>({
+  } = useForm<FormData>({
     mode: "onChange",
   });
-  
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
 
-  async function handleLogin(data: any) {
-    setLoading(true);
+  const { loading, signup } = useAuth();
 
-    const response: ApiResponse = await post("/users/register", {
-      ...data,
-      avatar: generateAvatar(),
-    });
-    if (response?.success) {
-      toast.success("User created");
-      navigate("/auth/login");
-    }
-
-    setLoading(false);
+  async function handleRegister(data: FormData) {
+    const response = await signup(data);
+    console.log(response);
   }
 
   return (
@@ -61,7 +32,7 @@ function Register() {
             Create new account
           </p>
         </div>
-        <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
+        <form onSubmit={handleSubmit(handleRegister)} className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="username" className="text-gray-300 font-medium">
               Username

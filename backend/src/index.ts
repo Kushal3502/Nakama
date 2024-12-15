@@ -2,10 +2,13 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { PrismaClient } from "@prisma/client";
 
 dotenv.config();
 
 const app = express();
+
+export const client = new PrismaClient();
 
 app.use(
   cors({

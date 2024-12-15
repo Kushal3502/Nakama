@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { client } from "..";
 
 export interface AuthRequest extends Request {
   user?: JwtCustomPayload;
@@ -8,6 +9,7 @@ export interface AuthRequest extends Request {
 interface JwtCustomPayload {
   id: number;
   username: string;
+  avatar?: string | null;
 }
 
 const authMiddleware = async (
@@ -32,7 +34,28 @@ const authMiddleware = async (
       process.env.ACCESS_TOKEN_SECRET as string
     ) as JwtCustomPayload;
 
-    req.user = decodedToken;
+    const currUser = await client.user.findUnique({
+      where: { id: decodedToken.id },
+      select: {
+        id: true,
+        avatar: true,
+        username: true,
+      },
+    });
+
+    if (!currUser) {
+      res.status(401).json({
+        success: false,
+        message: "User not found",
+      });
+      return;
+    }
+
+    req.user = {
+      id: currUser.id,
+      username: currUser.username,
+      avatar: currUser.avatar,
+    };
     next();
   } catch (error) {
     console.log("Auth middleware error :: ", error);
