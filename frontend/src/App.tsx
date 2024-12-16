@@ -1,6 +1,5 @@
 import { Routes } from "react-router";
 import "./App.css";
-import { Navbar } from "./components";
 import { Route } from "react-router";
 import {
   AuthLayout,
@@ -17,7 +16,6 @@ import { Toaster } from "react-hot-toast";
 function App() {
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center">
-      <Navbar />
       <Routes>
         <Route path="" element={<Landing />} />
         <Route path="auth" element={<AuthLayout />}>

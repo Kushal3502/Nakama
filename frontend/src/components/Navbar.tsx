@@ -2,9 +2,13 @@ import { useAuth } from "@/context/userContext";
 import { Link } from "react-router";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router";
-import { LogOut } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
 
-function Navbar() {
+export interface NavbarProps {
+  toggleSidebar: () => void;
+}
+
+function Navbar({ toggleSidebar }: NavbarProps) {
   const { user, logout } = useAuth();
   console.log(user);
 
@@ -12,12 +16,21 @@ function Navbar() {
 
   return (
     <div
-    className="bg-white/10 backdrop-blur-lg h-16 flex items-center justify-between fixed 
+      className="bg-white/10 backdrop-blur-lg h-16 flex items-center justify-between fixed 
     md:top-8 top-2 md:left-20 left-4 md:right-20 right-4 z-50 rounded-xl shadow-lg px-8"
     >
-      <Link to={"/home"}>
-        <h1 className="text-white font-bold text-xl">Nakama</h1>
-      </Link>
+      <div className="flex justify-center items-center gap-1">
+        <Button
+          onClick={toggleSidebar}
+          variant="ghost"
+          className="md:hidden block p-2 bg-transparent"
+        >
+          <Menu />
+        </Button>
+        <Link to={"/home"}>
+          <h1 className="text-white font-bold text-xl">Nakama</h1>
+        </Link>
+      </div>
       {user ? (
         <div className="flex items-center gap-4">
           <p className=" ">
