@@ -1,6 +1,6 @@
 import { ANIME } from "@consumet/extensions";
 import { useState, useEffect } from "react";
-import { Card } from ".";
+import { Card, Slider } from ".";
 import { Button } from "./ui/button";
 import { Star } from "lucide-react";
 import { useNavigate } from "react-router";
@@ -55,12 +55,7 @@ function Popular() {
           View all
         </Button>
       </div>
-      <div className=" grid md:grid-cols-5 gap-6">
-        {data &&
-          data
-            .filter((_, index) => index < 5)
-            .map((item, index) => <Card data={item} key={index} />)}
-      </div>
+      <Slider animeList={data} />
     </div>
   );
 }

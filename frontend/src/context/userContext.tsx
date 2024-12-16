@@ -141,7 +141,7 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({
       if (response.success) {
         setUser(null);
         toast.success("Logged out");
-        navigate("/");
+        navigate("/home");
         return { success: true, user: response.user };
       }
 

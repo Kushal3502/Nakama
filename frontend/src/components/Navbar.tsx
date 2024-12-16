@@ -23,7 +23,7 @@ function Navbar({ toggleSidebar }: NavbarProps) {
         <Button
           onClick={toggleSidebar}
           variant="ghost"
-          className="md:hidden block p-2 bg-transparent"
+          className=" p-2 bg-transparent"
         >
           <Menu />
         </Button>
@@ -33,7 +33,7 @@ function Navbar({ toggleSidebar }: NavbarProps) {
       </div>
       {user ? (
         <div className="flex items-center gap-4">
-          <p className=" ">
+          <p className=" md:block hidden">
             Hi, <span>{user?.username}</span>
           </p>
           <div className={`h-8 w-8 rounded-full ${user?.avatar}`}></div>
