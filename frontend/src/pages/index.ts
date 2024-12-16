@@ -6,6 +6,8 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import Trending from "./home/Trending";
 import Popular from "./home/Popular";
+import Details from "./home/Details";
+import Episodes from "./home/Episodes";
 
 export {
   Landing,
@@ -16,4 +18,6 @@ export {
   Register,
   Trending,
   Popular,
+  Details,
+  Episodes,
 };

@@ -10,7 +10,6 @@ export interface NavbarProps {
 
 function Navbar({ toggleSidebar }: NavbarProps) {
   const { user, logout } = useAuth();
-  console.log(user);
 
   const navigate = useNavigate();
 

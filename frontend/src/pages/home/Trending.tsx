@@ -47,7 +47,7 @@ function Trending() {
         <h3 className=" text-3xl">Trending</h3>
         <TrendingUp />
       </div>
-      <div className=" grid md:grid-cols-5 gap-6">
+      <div className=" grid md:grid-cols-5 grid-cols-3 md:gap-6 gap-3">
         {data && data.map((item, index) => <Card data={item} key={index} />)}
       </div>
       <div className=" flex justify-center">

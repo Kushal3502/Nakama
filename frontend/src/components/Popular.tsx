@@ -1,6 +1,6 @@
 import { ANIME } from "@consumet/extensions";
 import { useState, useEffect } from "react";
-import { Card, Slider } from ".";
+import { Slider } from ".";
 import { Button } from "./ui/button";
 import { Star } from "lucide-react";
 import { useNavigate } from "react-router";

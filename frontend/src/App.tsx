@@ -3,6 +3,8 @@ import "./App.css";
 import { Route } from "react-router";
 import {
   AuthLayout,
+  Details,
+  Episodes,
   Home,
   Landing,
   Layout,
@@ -26,6 +28,8 @@ function App() {
           <Route path="" element={<Home />} />
           <Route path="trending" element={<Trending />} />
           <Route path="popular" element={<Popular />} />
+          <Route path="info/:id" element={<Details />} />
+          <Route path="watch/:id" element={<Episodes />} />
         </Route>
       </Routes>
       <Toaster />
