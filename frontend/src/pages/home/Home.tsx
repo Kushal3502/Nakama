@@ -1,8 +1,9 @@
-import { Popular, Recent, Trending } from "@/components";
+import { Hero, Popular, Recent, Trending } from "@/components";
 
 function Home() {
   return (
-    <div className="h-screen flex flex-col gap-6 md:mx-20">
+    <div className="h-screen flex flex-col gap-6">
+      <Hero/>
       <Trending />
       <Popular />
       <Recent />

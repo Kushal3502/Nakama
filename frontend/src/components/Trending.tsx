@@ -16,7 +16,7 @@ function Trending() {
     try {
       const response = await get("/anime/top-airing");
       console.log(response);
-      
+
       setData(response.data.results);
     } catch (error) {
       console.error("Failed to fetch top airing anime:", error);
@@ -29,16 +29,6 @@ function Trending() {
     fetchTopAiring();
   }, []);
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-pulse text-xl font-semibold text-primary">
-          Loading trending anime...
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="px-6 border-b border-gray-600 pb-8">
       <div className="w-full flex justify-between items-center mb-4">
@@ -49,12 +39,24 @@ function Trending() {
         <Button
           size={"sm"}
           className=" bg-indigo-700 hover:bg-indigo-800 text-white"
-          onClick={() => navigate("/home/trending")}
+          onClick={() => navigate("/trending")}
         >
           View all
         </Button>
       </div>
-      <Slider animeList={data}/>
+      {isLoading ? (
+        <div className="grid grid-cols-5 gap-4">
+          {[...Array(5)].map((_, index) => (
+            <div key={index} className="flex flex-col gap-2">
+              <div className=" bg-gray-700 animate-pulse rounded" />
+              <div className="h-4 w-3/4 bg-gray-700 animate-pulse rounded" />
+              <div className="h-4 w-1/2 bg-gray-700 animate-pulse rounded" />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <Slider animeList={data} />
+      )}
     </div>
   );
 }

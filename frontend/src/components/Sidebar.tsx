@@ -1,14 +1,9 @@
-import { useState } from "react";
 import { Home, TrendingUp, Star } from "lucide-react";
 import { Button } from "./ui/button";
-import { useNavigate } from "react-router";
 import { NavbarProps } from "./Navbar";
+import { NavLink } from "react-router";
 
 function Sidebar({ toggleSidebar }: NavbarProps) {
-  const [activeTab, setActiveTab] = useState("Home");
-
-  const navigate = useNavigate();
-
   const tabs = [
     { name: "Home", icon: <Home />, path: "" },
     { name: "Top Airing", icon: <TrendingUp />, path: "trending" },
@@ -19,23 +14,25 @@ function Sidebar({ toggleSidebar }: NavbarProps) {
     <div className="bg-white/10 backdrop-blur-xl flex flex-col gap-4 fixed top-20 md:top-28 left-4 w-60 z-40 p-4 rounded-lg">
       <div className="" />
       {tabs.map((tab) => (
-        <Button
+        <NavLink
           key={tab.name}
-          variant="secondary"
-          className={`w-full flex justify-start items-center gap-4 p-4 rounded-lg transition-all duration-300 ${
-            activeTab === tab.name
-              ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg"
-              : "bg-indigo-500/30 hover:bg-indigo-500/70 text-gray-200 hover:text-white"
-          }`}
-          onClick={() => {
-            setActiveTab(tab.name);
-            navigate(`/home/${tab.path}`);
-            toggleSidebar();
-          }}
+          to={`/${tab.path}`}
+          onClick={toggleSidebar}
         >
-          <div className="text-white">{tab.icon}</div>
-          <p className="font-medium text-sm md:text-base">{tab.name}</p>
-        </Button>
+          {({ isActive }) => (
+            <Button
+              variant="secondary"
+              className={`w-full flex justify-start items-center gap-4 p-4 rounded-lg transition-all duration-300 ${
+                isActive
+                  ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg"
+                  : "bg-indigo-500/30 hover:bg-indigo-500/70 text-gray-200 hover:text-white"
+              }`}
+            >
+              <div className="text-white">{tab.icon}</div>
+              <p className="font-medium text-sm md:text-base">{tab.name}</p>
+            </Button>
+          )}
+        </NavLink>
       ))}
     </div>
   );

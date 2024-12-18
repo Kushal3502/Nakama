@@ -2,13 +2,10 @@ import { Card } from "@/components";
 import { Button } from "@/components/ui/button";
 import { ANIME } from "@consumet/extensions";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
 import { TrendingUp } from "lucide-react";
 
 function Trending() {
   const provider = new ANIME.Gogoanime();
-
-  const navigate = useNavigate();
 
   const [page, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
@@ -42,21 +39,28 @@ function Trending() {
   }, [page]);
 
   return (
-    <div className=" flex flex-col gap-4">
+    <div className="h-screen flex flex-col gap-4">
       <div className=" flex items-center justify-start gap-2">
         <h3 className=" text-3xl">Trending</h3>
         <TrendingUp />
       </div>
-      <div className=" grid md:grid-cols-5 grid-cols-3 md:gap-6 gap-3">
+      <div className=" grid md:grid-cols-6 grid-cols-3 md:gap-6 gap-3">
         {data && data.map((item, index) => <Card data={item} key={index} />)}
       </div>
       <div className=" flex justify-center">
         <Button
           className="bg-indigo-700 hover:bg-indigo-800 text-white"
           onClick={() => setPage(page + 1)}
-          disabled={!hasNextPage}
+          disabled={!hasNextPage || isLoading}
         >
-          Load more
+          {isLoading ? (
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Loading...
+            </div>
+          ) : (
+            "Load more"
+          )}
         </Button>
       </div>
     </div>

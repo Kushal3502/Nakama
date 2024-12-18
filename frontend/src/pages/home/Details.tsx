@@ -64,7 +64,7 @@ function Details() {
         <div className="fixed inset-0 w-full h-full">
           <img
             src={data.image}
-            className="w-full h-full object-cover blur-md opacity-5"
+            className="w-full h-full object-cover blur-md opacity-20"
             alt="background"
           />
         </div>
@@ -85,8 +85,9 @@ function Details() {
                         variant={
                           currEpisode === item.id ? "default" : "outline"
                         }
+                        size={"sm"}
                         onClick={() => setCurrEpisode(item.id)}
-                        className={`w-full transition-all duration-200 ${
+                        className={` transition-all duration-200 ${
                           currEpisode === item.id
                             ? "shadow-lg shadow-primary/20 scale-105"
                             : "hover:bg-primary/20"
