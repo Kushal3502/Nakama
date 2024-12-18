@@ -8,6 +8,7 @@ import Trending from "./home/Trending";
 import Popular from "./home/Popular";
 import Details from "./home/Details";
 import Episodes from "./home/Episodes";
+import Recent from "./home/Recent";
 
 export {
   Landing,
@@ -20,4 +21,5 @@ export {
   Popular,
   Details,
   Episodes,
+  Recent,
 };

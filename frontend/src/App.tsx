@@ -10,6 +10,7 @@ import {
   Layout,
   Login,
   Popular,
+  Recent,
   Register,
   Trending,
 } from "./pages";
@@ -28,6 +29,7 @@ function App() {
           <Route path="" element={<Home />} />
           <Route path="trending" element={<Trending />} />
           <Route path="popular" element={<Popular />} />
+          <Route path="recent" element={<Recent />} />
           <Route path="info/:id" element={<Details />} />
           <Route path="watch/:id" element={<Episodes />} />
         </Route>
