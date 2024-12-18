@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -23,8 +23,10 @@ app.use(cookieParser());
 
 // <-----------------------------------------routes----------------------------------------->
 import userRouter from "./routes/User.routes";
+import animeRouter from "./routes/Anime.routes";
 
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/anime", animeRouter);
 
 app.listen(process.env.PORT, () => {
   console.log("Server running on port :: ", process.env.PORT);

@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/controllers/user.controller.ts","./src/middleware/auth.middleware.ts","./src/routes/user.routes.ts","./src/utils/generatetokens.ts"],"version":"5.7.2"}
+{"root":["./src/index.ts","./src/controllers/anime.controller.ts","./src/controllers/user.controller.ts","./src/middleware/auth.middleware.ts","./src/routes/anime.routes.ts","./src/routes/user.routes.ts","./src/utils/generatetokens.ts"],"version":"5.7.2"}

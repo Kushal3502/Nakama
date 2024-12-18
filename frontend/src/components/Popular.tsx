@@ -1,23 +1,22 @@
-import { ANIME } from "@consumet/extensions";
 import { useState, useEffect } from "react";
 import { Slider } from ".";
 import { Button } from "./ui/button";
 import { Star } from "lucide-react";
 import { useNavigate } from "react-router";
+import { get } from "@/utils/api";
 
 function Popular() {
-  const provider = new ANIME.Gogoanime();
-
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchPopular = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      const response = await provider.fetchPopular();
-      //@ts-ignore
-      setData(response.results);
+      const response = await get("/anime/popular");
+      console.log(response);
+      
+      setData(response.data.results);
     } catch (error) {
       console.error("Failed to fetch popular anime:", error);
     } finally {

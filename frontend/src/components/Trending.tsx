@@ -1,26 +1,25 @@
-import { ANIME } from "@consumet/extensions";
 import { useState, useEffect } from "react";
 import { Slider } from ".";
 import { Button } from "./ui/button";
 import { TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router";
+import { get } from "@/utils/api";
 
 function Trending() {
-  const provider = new ANIME.Gogoanime();
-
   const navigate = useNavigate();
 
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchTopAiring = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      const response = await provider.fetchTopAiring();
-      //@ts-ignore
-      setData(response.results);
+      const response = await get("/anime/top-airing");
+      console.log(response);
+      
+      setData(response.data.results);
     } catch (error) {
-      console.error("Failed to fetch trending anime:", error);
+      console.error("Failed to fetch top airing anime:", error);
     } finally {
       setIsLoading(false);
     }

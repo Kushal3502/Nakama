@@ -1,34 +1,42 @@
+import { Player } from "@/components";
 import { Button } from "@/components/ui/button";
-import { ANIME } from "@consumet/extensions";
-import { Heart, Play } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { get } from "@/utils/api";
+import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { useNavigate } from "react-router";
+
+interface Episode {
+  id: string;
+  number: number;
+}
 
 interface Data {
   description: string;
-  genres: [];
+  genres: string[]; // Fixed the empty array type to string[]
   image: string;
   releaseDate: string;
   status: string;
   title: string;
   totalEpisodes: number;
+  episodes: Episode[]; // Add episodes to the Data interface
 }
 
 function Details() {
-  const provider = new ANIME.Gogoanime();
   const { id } = useParams();
   const [data, setData] = useState<Data | undefined>();
+  const [episodes, setEpisodes] = useState<Episode[]>([]);
+  const [currEpisode, setCurrEpisode] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchAnimeDetails = async () => {
     setIsLoading(true);
     try {
-      if (id) {
-        const response = await provider.fetchAnimeInfo(id);
-        // @ts-ignore
-        setData(response);
-      }
+      const response = await get(`/anime/${id}`);
+      console.log(response.data);
+      setData(response.data);
+      setEpisodes(response.data.episodes);
+      setCurrEpisode(response.data.episodes[0].id);
     } catch (error) {
       console.error("Failed to fetch anime details:", error);
     } finally {
@@ -52,78 +60,117 @@ function Details() {
 
   return (
     data && (
-      <div className="relative max-w-5xl mx-auto">
-        <div className="absolute inset-0 w-full h-full">
+      <div className="relative min-h-screen w-full pb-8">
+        <div className="fixed inset-0 w-full h-full">
           <img
             src={data.image}
-            className="w-full h-full object-cover blur-sm opacity-10"
+            className="w-full h-full object-cover blur-md opacity-5"
             alt="background"
           />
         </div>
-        <div className=" mx-auto px-4 py-8 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="md:col-span-1">
-              <img
-                src={data.image}
-                alt={data.title}
-                className="w-full rounded-lg shadow-2xl"
-              />
-            </div>
-            <div className="md:col-span-2 space-y-6">
-              <h1 className="text-3xl font-bold text-primary mb-4">
-                {data.title}
-              </h1>
-              <div className="flex gap-4 mb-6">
-                <Button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full">
-                  <Play /> Watch now
-                </Button>
-                <Button className="bg-indigo-300 hover:bg-indigo-400 text-white px-6 py-2 rounded-full">
-                  <Heart /> Add to Favourites
-                </Button>
-              </div>
-              <p className="text-gray-300 leading-relaxed mb-6 text-justify">
-                {data.description}
-              </p>
-              <div className="bg-gray-800/50 rounded-lg p-6 space-y-4">
-                <ul className="space-y-2 text-gray-300">
-                  <li className="flex items-center gap-2">
-                    <span className="font-semibold text-primary">
-                      Release Date:
-                    </span>
-                    {data.releaseDate}
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="font-semibold text-primary">Status:</span>
-                    <span
-                      className={`px-3 py-1 rounded-full ${
-                        data.status === "Completed"
-                          ? "bg-green-500/20 text-green-400"
-                          : "bg-blue-500/20 text-blue-400"
-                      }`}
-                    >
-                      {data.status}
-                    </span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="font-semibold text-primary">
-                      Episodes:
-                    </span>
-                    {data.totalEpisodes}
-                  </li>
-                </ul>
-                <div className="pt-4">
-                  <p className="font-semibold text-primary mb-3">Genres:</p>
-                  <div className="flex flex-wrap gap-2">
-                    {data.genres.map((item, index) => (
+        <div className="container mx-auto px-4 relative z-10 pt-4">
+          <div className="flex flex-col lg:flex-row gap-6">
+            {/* Video Player Section */}
+            <div className="flex-1">
+              {currEpisode && <Player episodeId={currEpisode} />}
+              <div className="mt-6">
+                <h3 className="text-xl font-semibold mb-4 text-gray-100">
+                  Episodes
+                </h3>
+                <ScrollArea className="h-[300px] lg:h-[400px] rounded-lg border border-gray-800/60 bg-black/30 backdrop-blur-sm p-4 lg:p-6">
+                  <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2">
+                    {episodes.map((item) => (
                       <Button
-                        variant={"outline"}
-                        key={index}
-                        className="bg-indigo-900 hover:bg-indigo-950 rounded-full text-sm px-4 py-1"
+                        key={item.number}
+                        variant={
+                          currEpisode === item.id ? "default" : "outline"
+                        }
+                        onClick={() => setCurrEpisode(item.id)}
+                        className={`w-full transition-all duration-200 ${
+                          currEpisode === item.id
+                            ? "shadow-lg shadow-primary/20 scale-105"
+                            : "hover:bg-primary/20"
+                        }`}
                       >
-                        {item}
+                        {item.number}
                       </Button>
                     ))}
                   </div>
+                </ScrollArea>
+              </div>
+            </div>
+
+            {/* Title and Details Section */}
+            <div className="lg:w-[400px]">
+              <div className="w-full mx-auto flex items-center justify-between px-2 mb-4">
+                <h1 className="text-2xl lg:text-3xl font-bold text-gray-100 tracking-tight">
+                  {data.title}
+                </h1>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="hover:bg-primary/20 hover:text-primary transition-colors"
+                >
+                  <Heart className="h-5 w-5" />
+                </Button>
+              </div>
+              <div className="space-y-6 bg-black/30 backdrop-blur-sm p-4 lg:p-6 rounded-lg border border-gray-800/60">
+                <div className="flex gap-4 lg:gap-6">
+                  <img
+                    src={data.image}
+                    alt={data.title}
+                    className="w-28 lg:w-32 h-40 lg:h-44 object-cover rounded-lg shadow-lg hover:scale-105 transition-transform"
+                  />
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-gray-100 mb-4">
+                      Details
+                    </h3>
+                    <div className="space-y-3 text-gray-300">
+                      <div className="flex gap-2">
+                        <span className="text-gray-400 font-medium">
+                          Status:
+                        </span>
+                        <span className="text-primary font-semibold">
+                          {data.status}
+                        </span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="text-gray-400 font-medium">
+                          Release:
+                        </span>
+                        <span>{data.releaseDate}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="text-gray-400 font-medium">
+                          Episodes:
+                        </span>
+                        <span>{data.totalEpisodes}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="text-gray-400 font-medium">
+                          Genres:
+                        </span>
+                        <div className="flex flex-wrap gap-2">
+                          {data.genres.map((genre, index) => (
+                            <span
+                              key={index}
+                              className="px-3 py-1 bg-primary/20 rounded-full text-xs font-medium hover:bg-primary/30 transition-colors"
+                            >
+                              {genre}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-gray-100 mb-3">
+                    Description
+                  </h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    {data.description}
+                  </p>
                 </div>
               </div>
             </div>
