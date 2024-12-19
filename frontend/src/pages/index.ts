@@ -8,7 +8,7 @@ import Popular from "./home/Popular";
 import Details from "./home/Details";
 import Episodes from "./home/Episodes";
 import Recent from "./home/Recent";
-import Serach from "./home/Serach";
+import Serach from "./home/Search";
 
 export {
   Home,

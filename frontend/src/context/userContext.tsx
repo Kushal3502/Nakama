@@ -119,7 +119,7 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({
 
       if (response.success && response.user) {
         setUser(response.user);
-        navigate("/home");
+        navigate("/");
         return { success: true, user: response.user };
       }
 

@@ -70,7 +70,6 @@ function Details() {
         </div>
         <div className="container mx-auto px-4 relative z-10 pt-4">
           <div className="flex flex-col lg:flex-row gap-6">
-            {/* Video Player Section */}
             <div className="flex-1">
               {currEpisode && <Player episodeId={currEpisode} />}
               <div className="mt-6">
@@ -100,8 +99,6 @@ function Details() {
                 </ScrollArea>
               </div>
             </div>
-
-            {/* Title and Details Section */}
             <div className="lg:w-[400px]">
               <div className="w-full mx-auto flex items-center justify-between px-2 mb-4">
                 <h1 className="text-2xl lg:text-3xl font-bold text-gray-100 tracking-tight">

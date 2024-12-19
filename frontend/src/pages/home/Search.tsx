@@ -1,19 +1,22 @@
 import { Card } from "@/components";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
-import { TrendingUp } from "lucide-react";
 import { get } from "@/utils/api";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router";
 
-function Trending() {
+function Search() {
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("query");
+
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
-  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchTopAiring = async () => {
+  const fetchSearchResults = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      const response = await await get(`/anime/top-airing?page=${page}`);
+      const response = await get(`/anime/search?query=${query}&page=${page}`);
       console.log(response);
 
       if (page === 1) {
@@ -26,21 +29,21 @@ function Trending() {
       // @ts-ignore
       setHasNextPage(response.data.hasNextPage);
     } catch (error) {
-      console.error("Failed to fetch trending anime:", error);
+      console.error("Failed to fetch top airing anime:", error);
     } finally {
       setIsLoading(false);
     }
   };
+  console.log(data);
 
   useEffect(() => {
-    fetchTopAiring();
+    fetchSearchResults();
   }, [page]);
 
   return (
     <div className="h-screen flex flex-col gap-4">
       <div className=" flex items-center justify-start gap-2">
-        <h3 className=" text-3xl">Trending</h3>
-        <TrendingUp />
+        <h3 className=" text-3xl">Showing results for "{query}"</h3>
       </div>
       <div className=" grid md:grid-cols-6 grid-cols-3 md:gap-6 gap-3">
         {data && data.map((item, index) => <Card data={item} key={index} />)}
@@ -65,4 +68,4 @@ function Trending() {
   );
 }
 
-export default Trending;
+export default Search;

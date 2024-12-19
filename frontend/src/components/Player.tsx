@@ -82,7 +82,12 @@ function Player({ episodeId }: { episodeId: string }) {
         <div className="flex gap-2">
           {sources &&
             sources
-              .filter((_, index) => index > 0 && index < 4)
+              .filter(
+                (item) =>
+                  item.quality == "480p" ||
+                  item.quality == "720p" ||
+                  item.quality == "1080p"
+              )
               .map((item, index) => (
                 <Button
                   key={index}

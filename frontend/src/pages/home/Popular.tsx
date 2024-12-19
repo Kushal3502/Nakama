@@ -1,35 +1,30 @@
 import { Card } from "@/components";
 import { Button } from "@/components/ui/button";
-import { ANIME } from "@consumet/extensions";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
 import { Star } from "lucide-react";
+import { get } from "@/utils/api";
 
 function Popular() {
-  const provider = new ANIME.Gogoanime();
-
-  const navigate = useNavigate();
-
   const [page, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchTopAiring = async () => {
+  const fetchPopular = async () => {
     try {
       setIsLoading(true);
-      const response = await provider.fetchPopular(page);
+      const response = await await get(`/anime/popular?page=${page}`);
       console.log(response);
 
       if (page === 1) {
         //@ts-ignore
-        setData(response.results);
+        setData(response.data.results);
       } else {
         //@ts-ignore
-        setData((prev) => [...prev, ...response.results]);
+        setData((prev) => [...prev, ...response.data.results]);
       }
       // @ts-ignore
-      setHasNextPage(response.hasNextPage);
+      setHasNextPage(response.data.hasNextPage);
     } catch (error) {
       console.error("Failed to fetch trending anime:", error);
     } finally {
@@ -38,7 +33,7 @@ function Popular() {
   };
 
   useEffect(() => {
-    fetchTopAiring();
+    fetchPopular();
   }, [page]);
 
   return (

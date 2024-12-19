@@ -5,10 +5,12 @@ import {
   fetchPopular,
   fetchRecentlyAdded,
   fetchTopAiring,
+  serch,
 } from "../controllers/Anime.controller";
 
 const router = Router();
 
+router.route("/search").get(serch);
 router.route("/popular").get(fetchPopular);
 router.route("/top-airing").get(fetchTopAiring);
 router.route("/recently-added").get(fetchRecentlyAdded);

@@ -3,6 +3,24 @@ import { ANIME } from "@consumet/extensions";
 
 const provider = new ANIME.Gogoanime();
 
+export const serch = async (req: Request, res: Response) => {
+  const { query = "", page = 1 } = req.query;
+  try {
+    const data = await provider.search(query as string, page as number);
+    res.status(200).json({
+      success: true,
+      message: "Data fetched",
+      data,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
 export const fetchPopular = async (req: Request, res: Response) => {
   const { page = 1 } = req.query;
   try {

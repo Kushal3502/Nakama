@@ -1,15 +1,9 @@
 import { Card } from "@/components";
 import { Button } from "@/components/ui/button";
-import { ANIME } from "@consumet/extensions";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
-import { TrendingUp } from "lucide-react";
+import { get } from "@/utils/api";
 
 function Recent() {
-  const provider = new ANIME.Gogoanime();
-
-  const navigate = useNavigate();
-
   const [page, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
   const [data, setData] = useState([]);
@@ -18,18 +12,18 @@ function Recent() {
   const fetchTopAiring = async () => {
     try {
       setIsLoading(true);
-      const response = await provider.fetchRecentEpisodes(page);
+      const response = await await get(`/anime/recently-added?page=${page}`);
       console.log(response);
 
       if (page === 1) {
         //@ts-ignore
-        setData(response.results);
+        setData(response.data.results);
       } else {
         //@ts-ignore
-        setData((prev) => [...prev, ...response.results]);
+        setData((prev) => [...prev, ...response.data.results]);
       }
       // @ts-ignore
-      setHasNextPage(response.hasNextPage);
+      setHasNextPage(response.data.hasNextPage);
     } catch (error) {
       console.error("Failed to fetch trending anime:", error);
     } finally {
@@ -42,7 +36,7 @@ function Recent() {
   }, [page]);
 
   return (
-    <div className=" flex flex-col gap-4">
+    <div className="h-screen flex flex-col gap-4">
       <div className=" flex items-center justify-start gap-2">
         <h3 className=" text-3xl">Recently added</h3>
       </div>

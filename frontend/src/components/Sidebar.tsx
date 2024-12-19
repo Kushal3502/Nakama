@@ -1,4 +1,4 @@
-import { Home, TrendingUp, Star } from "lucide-react";
+import { Home, TrendingUp, Star, Timer } from "lucide-react";
 import { Button } from "./ui/button";
 import { NavbarProps } from "./Navbar";
 import { NavLink } from "react-router";
@@ -8,6 +8,7 @@ function Sidebar({ toggleSidebar }: NavbarProps) {
     { name: "Home", icon: <Home />, path: "" },
     { name: "Top Airing", icon: <TrendingUp />, path: "trending" },
     { name: "Popular", icon: <Star />, path: "popular" },
+    { name: "Recently Added", icon: <Timer />, path: "recent" },
   ];
 
   return (
