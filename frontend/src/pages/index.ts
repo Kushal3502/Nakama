@@ -9,6 +9,9 @@ import Details from "./home/Details";
 import Episodes from "./home/Episodes";
 import Recent from "./home/Recent";
 import Serach from "./home/Search";
+import Genres from "./home/Genres";
+import GenreResult from "./home/GenreResult";
+import Likes from "./home/Likes";
 
 export {
   Home,
@@ -22,4 +25,7 @@ export {
   Episodes,
   Recent,
   Serach,
+  Genres,
+  GenreResult,
+  Likes,
 };

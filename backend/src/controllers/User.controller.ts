@@ -238,3 +238,70 @@ export const generateNewAccessToken = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const like = async (req: AuthRequest, res: Response) => {
+  const { anime } = req.params;
+  try {
+    const isLiked = await client.like.findFirst({
+      where: {
+        anime,
+        userId: req.user?.id,
+      },
+    });
+
+    if (isLiked) {
+      await client.like.delete({
+        where: {
+          id: isLiked.id,
+        },
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "Anime unliked successfully",
+        liked: false,
+      });
+    } else {
+      const newLike = await client.like.create({
+        data: {
+          anime,
+          userId: req.user?.id as number,
+        },
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "Anime liked successfully",
+        liked: true,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};
+
+export const getAllLikes = async (req: AuthRequest, res: Response) => {
+  try {
+    const likes = await client.like.findMany({
+      where: {
+        userId: req.user?.id,
+      },
+    });
+    
+    res.status(200).json({
+      success: true,
+      message: "Data fetched successfully",
+      data: likes,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+};

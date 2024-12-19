@@ -23,7 +23,7 @@ const authMiddleware = async (
 
   // Check for missing token
   if (!token) {
-    res.status(401).json({ message: "Access Denied. No token provided." });
+    res.status(401).json({ message: "Unauthorized request" });
     return;
   }
 

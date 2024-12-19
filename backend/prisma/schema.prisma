@@ -13,4 +13,12 @@ model User {
   password     String
   avatar       String
   refreshToken String?
+  likes        Like[]
+}
+
+model Like {
+  id     Int    @id @default(autoincrement())
+  anime  String
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int
 }

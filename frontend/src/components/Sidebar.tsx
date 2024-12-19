@@ -1,4 +1,4 @@
-import { Home, TrendingUp, Star, Timer } from "lucide-react";
+import { Home, TrendingUp, Star, Timer, TrendingUpDown, Heart } from "lucide-react";
 import { Button } from "./ui/button";
 import { NavbarProps } from "./Navbar";
 import { NavLink } from "react-router";
@@ -9,10 +9,12 @@ function Sidebar({ toggleSidebar }: NavbarProps) {
     { name: "Top Airing", icon: <TrendingUp />, path: "trending" },
     { name: "Popular", icon: <Star />, path: "popular" },
     { name: "Recently Added", icon: <Timer />, path: "recent" },
+    { name: "Genres", icon: <TrendingUpDown />, path: "genres" },
+    { name: "Favourites", icon: <Heart />, path: "likes" },
   ];
 
   return (
-    <div className="bg-white/10 backdrop-blur-xl flex flex-col gap-4 fixed top-20 md:top-28 left-4 w-60 z-40 p-4 rounded-lg">
+    <div className="bg-white/5 backdrop-blur-xl flex flex-col gap-4 fixed top-20 md:top-28 left-4 w-60 z-40 p-4 rounded-lg">
       <div className="" />
       {tabs.map((tab) => (
         <NavLink

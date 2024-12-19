@@ -79,7 +79,6 @@ function Login() {
           >
             {loading ? (
               <div className="flex items-center justify-center space-x-2">
-                <span className="animate-spin w-5 h-5 border-3 border-white border-t-transparent rounded-full"></span>
                 <span>Logging in...</span>
               </div>
             ) : (

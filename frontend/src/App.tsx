@@ -5,8 +5,11 @@ import {
   AuthLayout,
   Details,
   Episodes,
+  GenreResult,
+  Genres,
   Home,
   Layout,
+  Likes,
   Login,
   Popular,
   Recent,
@@ -29,6 +32,9 @@ function App() {
           <Route path="trending" element={<Trending />} />
           <Route path="popular" element={<Popular />} />
           <Route path="recent" element={<Recent />} />
+          <Route path="genres" element={<Genres />} />
+          <Route path="likes" element={<Likes />} />
+          <Route path="genre" element={<GenreResult />} />
           <Route path="search" element={<Serach />} />
           <Route path="info/:id" element={<Details />} />
           <Route path="watch/:id" element={<Episodes />} />

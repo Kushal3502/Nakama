@@ -12,7 +12,7 @@ function Recent() {
   const fetchTopAiring = async () => {
     try {
       setIsLoading(true);
-      const response = await await get(`/anime/recently-added?page=${page}`);
+      const response = await get(`/anime/recently-added?page=${page}`);
       console.log(response);
 
       if (page === 1) {

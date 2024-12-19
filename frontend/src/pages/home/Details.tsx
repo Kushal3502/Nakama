@@ -1,9 +1,10 @@
 import { Player } from "@/components";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { get } from "@/utils/api";
+import { get, post } from "@/utils/api";
 import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { useParams } from "react-router";
 
 interface Episode {
@@ -11,15 +12,15 @@ interface Episode {
   number: number;
 }
 
-interface Data {
+export interface Data {
   description: string;
-  genres: string[]; // Fixed the empty array type to string[]
+  genres: string[];
   image: string;
   releaseDate: string;
   status: string;
   title: string;
   totalEpisodes: number;
-  episodes: Episode[]; // Add episodes to the Data interface
+  episodes: Episode[];
 }
 
 function Details() {
@@ -28,6 +29,7 @@ function Details() {
   const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [currEpisode, setCurrEpisode] = useState<string | undefined>();
   const [isLoading, setIsLoading] = useState(true);
+  const [isLiked, setIsLiked] = useState(false);
 
   const fetchAnimeDetails = async () => {
     setIsLoading(true);
@@ -44,16 +46,36 @@ function Details() {
     }
   };
 
+  const checkIfLiked = async () => {
+    try {
+      const response = await get("/users/likes");
+      const likes = response.data;
+      setIsLiked(likes.some((like: any) => like.anime === id));
+    } catch (error) {
+      console.error("Failed to fetch likes:", error);
+    }
+  };
+
+  const handleLike = async () => {
+    try {
+      const respons = await post(`/users/like/${id}`);
+      console.log(respons);
+      toast.success(isLiked ? "Like removed" : "Liked");
+      setIsLiked(respons.liked);
+    } catch (error) {
+      console.error("Failed to toggle like:", error);
+    }
+  };
+
   useEffect(() => {
     fetchAnimeDetails();
+    checkIfLiked();
   }, [id]);
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-pulse text-xl font-semibold text-primary">
-          Loading anime details...
-        </div>
+      <div className="flex justify-center items-center min-h-[200px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -107,9 +129,11 @@ function Details() {
                 <Button
                   variant="outline"
                   size="icon"
-                  className="hover:bg-primary/20 hover:text-primary transition-colors"
+                  onClick={handleLike}
                 >
-                  <Heart className="h-5 w-5" />
+                  <Heart
+                    className={`h-5 w-5 ${isLiked ? "fill-current" : ""}`}
+                  />
                 </Button>
               </div>
               <div className="space-y-6 bg-black/30 backdrop-blur-sm p-4 lg:p-6 rounded-lg border border-gray-800/60">
