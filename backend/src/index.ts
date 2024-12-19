@@ -21,6 +21,10 @@ app.use(express.json());
 
 app.use(cookieParser());
 
+app.get("/", (req, res) => {
+  res.send("Nakama backend");
+});
+
 // <-----------------------------------------routes----------------------------------------->
 import userRouter from "./routes/User.routes";
 import animeRouter from "./routes/Anime.routes";
