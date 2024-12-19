@@ -25,7 +25,7 @@ function Episodes() {
         // @ts-ignore
         setData(response.episodes);
         // @ts-ignore
-        setCurrentEpisode(response.episodes[0].id)
+        setCurrentEpisode(response.episodes[0].id);
       }
     } catch (error) {
       console.error("Failed to fetch anime details:", error);
@@ -42,7 +42,10 @@ function Episodes() {
     <div className="flex gap-4 p-4">
       {/* Video Player Section */}
       <div className="w-3/4 bg-gray-900 rounded-lg">
-        {currentEpisode && <Player id={currentEpisode} />}
+        {currentEpisode && (
+          // @ts-ignore
+          <Player id={currentEpisode} />
+        )}
       </div>
       {/* Episodes List Section */}
       <div className="w-1/4 bg-gray-800 rounded-lg p-4 overflow-y-auto">

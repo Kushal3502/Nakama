@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Slider } from ".";
 import { Button } from "./ui/button";
-import { Timer, TrendingUp } from "lucide-react";
+import { Timer } from "lucide-react";
 import { useNavigate } from "react-router";
 import { get } from "@/utils/api";
 
