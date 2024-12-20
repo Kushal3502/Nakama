@@ -111,11 +111,13 @@ export const loginUser = async (req: Request, res: Response) => {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         maxAge: 7 * 24 * 60 * 60 * 1000,
+        sameSite: "none",
       })
       .cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         maxAge: 7 * 24 * 60 * 60 * 1000,
+        sameSite: "none",
       })
       .status(200)
       .json({
@@ -291,7 +293,7 @@ export const getAllLikes = async (req: AuthRequest, res: Response) => {
         userId: req.user?.id,
       },
     });
-    
+
     res.status(200).json({
       success: true,
       message: "Data fetched successfully",
